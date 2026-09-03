@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 12 Math — Semester 1 Journey</title>
+
+<!-- Preconnect to external font origins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#101A33;
+    --navy-deep:#0A1226;
+    --paper:#FBF7EE;
+    --paper-dim:#F1EAD9;
+    --ink:#1B2438;
+    --slate:#5B6B8C;
+    --gold:#E3A94D;
+    --coral:#D9694F;   
+    --teal:#4FA69A;    
+    --violet:#8B6FC9;  
+    --crimson:#B23A48; 
+    --grey:#8A93A6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--paper);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    z-index: 1000;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 6vw 24px;
+    background:radial-gradient(ellipse at top left, #17244A 0%, var(--navy) 55%);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:12.5px;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:clamp(32px,5vw,56px);
+    font-weight:700;
+    margin:0 0 14px;
+    max-width:14ch;
+    color:#fff;
+  }
+  .hero p{
+    max-width:60ch;
+    color:#C7CEDE;
+    font-size:17px;
+    margin:0 0 8px;
+  }
+  .hero .sub-note{
+    font-size:14px;
+    color:var(--grey);
+  }
+
+  /* ---------- CURVE NAV ---------- */
+  .curve-section{
+    padding:8px 4vw 40px;
+    background:var(--navy);
+    overflow-x:auto;
+  }
+  .curve-caption{
+    font-size:13px;
+    color:var(--grey);
+    padding:0 2vw 6px;
+    max-width:70ch;
+  }
+  .curve-svg-wrap{
+    min-width:1400px;
+    position:relative;
+  }
+  .curve-svg-wrap svg{width:100%;height:auto;display:block;}
+  .node{cursor:pointer;}
+  .node circle{transition:r .15s ease, filter .15s ease;}
+  .node:hover circle{filter:brightness(1.3);}
+  .node text{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    fill:#8892A8;
+  }
+  .node.active circle{stroke:#fff;stroke-width:2px;}
+
+  /* ---------- ASSESSMENT SUMMARY ---------- */
+  .assess-section{
+    padding:48px 6vw 24px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .assess-section h2{font-size:26px;margin:0 0 6px;}
+  .assess-section > p{color:var(--slate);max-width:60ch;margin:0 0 28px;font-size:15px;}
+  .assess-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+  }
+  .assess-card{
+    background:var(--paper-dim);
+    border-radius:10px;
+    padding:20px;
+    border-left:5px solid var(--gold);
+  }
+  .assess-card.midterm{border-left-color:var(--coral);}
+  .assess-card.pba{border-left-color:var(--violet);}
+  .assess-card.quiz{border-left-color:var(--teal);}
+  .assess-card.final{border-left-color:var(--crimson);}
+  .assess-card .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--slate);
+  }
+  .assess-card h3{margin:6px 0 8px;font-size:20px;}
+  .assess-card p.desc{margin:8px 0 0;font-size:14px;color:var(--slate);}
+
+  /* ---------- FILTERS ---------- */
+  .filter-bar{
+    padding:20px 6vw 0;
+    background:var(--paper);
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .filter-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    border:1px solid #D8CFB9;
+    background:#fff;
+    color:var(--ink);
+    padding:8px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--ink);}
+  .filter-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-section{
+    background:var(--paper);
+    padding:24px 6vw 64px;
+  }
+  .week-card{
+    background:#fff;
+    border:1px solid #EAE2CC;
+    border-radius:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+    transition:box-shadow .15s ease;
+  }
+  .week-card.hidden{display:none;}
+  .week-card summary{
+    list-style:none;
+    cursor:pointer;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .week-card summary::-webkit-details-marker{display:none;}
+  .week-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:#fff;
+    background:var(--ink);
+    border-radius:6px;
+    padding:4px 8px;
+    min-width:44px;
+    text-align:center;
+    flex-shrink:0;
+  }
+  .week-meta{flex:1;min-width:0;}
+  .week-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .week-title{
+    font-size:17px;
+    font-weight:600;
+    color:var(--ink);
+    font-family:'Fraunces',serif;
+  }
+  .week-unit{font-size:12.5px;color:var(--slate);}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:999px;
+    color:#fff;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .badge.midterm{background:var(--coral);}
+  .badge.pba{background:var(--violet);}
+  .badge.quiz{background:var(--teal);}
+  .badge.final{background:var(--crimson);}
+  .badge.break{background:var(--grey);}
+  .badge.revision{background:var(--gold);color:var(--ink);}
+  .chev{color:var(--slate);transition:transform .15s ease;flex-shrink:0;}
+  details[open] .chev{transform:rotate(90deg);}
+  .week-body{
+    padding:4px 20px 24px 80px;
+    border-top:1px solid #F1EAD9;
+  }
+  .week-body ul{
+    margin:16px 0 0;
+    padding-left:20px;
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.6;
+  }
+  .week-body ul li{margin-bottom:2px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--navy-deep);
+    color:var(--grey);
+    padding:32px 6vw;
+    font-size:13px;
+  }
+  footer strong{color:var(--paper);}
+
+  @media (max-width:640px){
+    .week-body{padding-left:20px;}
+    .week-num{display:none;}
+  }
+</style>
+
+<!-- Third party analytics scripts loaded asynchronously -->
+</head>
+<body>
+
+<div class="sticky-header">
+    <center>
+      <h2>
+        <a href="#" class="logo">Grade 5</a> · 
+        <a href="G7-English.html">English</a> - 
+        <a href="G7-Math.html" >Math</a> - 
+        <a href="G7-Science.htm" style="color: yellow;">Science</a> - 
+        <a href="index.html" >Arabic</a>
+      </h2>
+    </center>    
+</div>
+
+
+
+<header class="hero">
+  <div class="eyebrow">Grade 7 · Science · Semester 1 · 2026–2027</div>
+  <h1>Exploring the physical world and dynamic Earth systems.</h1>
+  <p>Follow along week by week as students journey from matter, pressure, and molecular structure through chemical reactions, continental drift, and Earth's dynamic natural hazards. Tap points on the path or filter below to see details for each week.</p>
+  <p class="sub-note">Tap any point on the curve — or any week below — to open the details.</p>
+</header>
+
+<section class="curve-section">
+  <div class="curve-caption">The semester as a journey — click a point to jump to that week.</div>
+  <div class="curve-svg-wrap">
+    <svg id="curveSvg" viewBox="0 0 1400 190" xmlns="http://www.w3.org/2000/svg"><path d="M 40 62.8 L 109.47368421052632 79.03296511028299 L 178.94736842105263 92.74299482823868 L 248.42105263157893 101.79926961656768 L 317.89473684210526 104.7942588096837 L 387.36842105263156 101.26247971951241 L 456.84210526315786 91.75284318297979 L 526.3157894736842 77.7433415707457 L 595.7894736842105 61.41133848867308 L 665.2631578947368 45.29516185919782 L 734.7368421052631 31.899595751728487 L 804.2105263157895 23.306585615121232 L 873.6842105263157 20.851661295771198 L 943.1578947368421 24.91636833441571 L 1012.6315789473683 34.86896797121836 L 1082.1052631578948 49.16262229340329 L 1151.578947368421 65.57580454167933 L 1221.0526315789473 81.55756988781785 L 1290.5263157894735 94.62402452993405 L 1360 102.74437368439645" fill="none" stroke="#2A3B66" stroke-width="2.5"></path>
+      <g class="node" data-week="1" transform="translate(40,62.8)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W1</text>
+      </g>
+      <g class="node" data-week="2" transform="translate(109.47368421052632,79.03296511028299)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W2</text>
+      </g>
+      <g class="node" data-week="3" transform="translate(178.94736842105263,92.74299482823868)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W3</text>
+      </g>
+      <g class="node" data-week="4" transform="translate(248.42105263157893,101.79926961656768)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="-16" text-anchor="middle">W4</text>
+      </g>
+      <g class="node" data-week="5" transform="translate(317.89473684210526,104.7942588096837)">
+        <circle r="6" fill="#4A5578" stroke="#4A5578" stroke-dasharray="2,2" fill-opacity="0.3"></circle>
+        <text x="0" y="-16" text-anchor="middle">W5</text>
+      </g>
+      <g class="node" data-week="6" transform="translate(387.36842105263156,101.26247971951241)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="-16" text-anchor="middle">W6</text>
+      </g>
+      <g class="node" data-week="7" transform="translate(456.84210526315786,91.75284318297979)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W7</text>
+      </g>
+      <g class="node" data-week="8" transform="translate(526.3157894736842,77.7433415707457)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W8</text>
+      </g>
+      <g class="node" data-week="9" transform="translate(595.7894736842105,61.41133848867308)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W9</text>
+      </g>
+      <g class="node" data-week="10" transform="translate(665.2631578947368,45.29516185919782)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W10</text>
+      </g>
+      <g class="node" data-week="11" transform="translate(734.7368421052631,31.899595751728487)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W11</text>
+      </g>
+      <g class="node" data-week="12" transform="translate(804.2105263157895,23.306585615121232)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W12</text>
+      </g>
+      <g class="node" data-week="13" transform="translate(873.6842105263157,20.851661295771198)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W13</text>
+      </g>
+      <g class="node" data-week="14" transform="translate(943.1578947368421,24.91636833441571)">
+        <circle r="6" fill="#4A5578" stroke="#4A5578" stroke-dasharray="2,2" fill-opacity="0.3"></circle>
+        <text x="0" y="24" text-anchor="middle">W14</text>
+      </g>
+      <g class="node" data-week="15" transform="translate(1012.6315789473683,34.86896797121836)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W15</text>
+      </g>
+      <g class="node" data-week="16" transform="translate(1082.1052631578948,49.16262229340329)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W16</text>
+      </g>
+      <g class="node" data-week="17" transform="translate(1151.578947368421,65.57580454167933)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W17</text>
+      </g>
+      <g class="node" data-week="18" transform="translate(1221.0526315789473,81.55756988781785)">
+        <circle r="9" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W18</text>
+      </g>
+      <g class="node" data-week="19" transform="translate(1290.5263157894735,94.62402452993405)">
+        <circle r="9" fill="#B23A48"></circle>
+        <text x="0" y="24" text-anchor="middle">W19</text>
+      </g>
+      <g class="node" data-week="20" transform="translate(1360,102.74437368439645)">
+        <circle r="9" fill="#B23A48"></circle>
+        <text x="0" y="-16" text-anchor="middle">W20</text>
+      </g>
+    <g>
+      <line x1="116.42105263157895" y1="54.40396808207856" x2="116.42105263157895" y2="80.40396808207856" stroke="#E3A94D" stroke-width="1.5" stroke-dasharray="3,2"></line>
+      <text class="today-flag" x="116.42105263157895" y="46.40396808207856" text-anchor="middle">◆ TODAY</text>
+    </g></svg>
+  </div>
+</section>
+
+<section class="assess-section">
+  <h2>Key Milestones &amp; Checkpoints</h2>
+  <p>Important semester pauses, review periods, and exam markers.</p>
+  <div class="assess-grid">
+    <div class="assess-card midterm">
+      <div class="label">Break</div>
+      <h3>National Vacation</h3>
+      <div class="weeks midterm-c">Week 5 · Sep 20</div>
+      <p class="desc">Celebrating Saudi National Day (Sep 23 &amp; 24).</p>
+    </div>
+    <div class="assess-card pba">
+      <div class="label">Break</div>
+      <h3>Autumn Break</h3>
+      <div class="weeks pba-c">Week 14 · Nov 22</div>
+      <p class="desc">Mid-semester break for students to recharge.</p>
+    </div>
+    <div class="assess-card revision">
+      <div class="label">Checkpoint</div>
+      <h3>General Review</h3>
+      <div class="weeks" style="color:var(--gold)">Week 18 · Dec 20</div>
+      <p class="desc">Comprehensive review and preparation for final exams.</p>
+    </div>
+    <div class="assess-card final">
+      <div class="label">Checkpoint</div>
+      <h3>Semester 1 Exams</h3>
+      <div class="weeks final-c">Weeks 19–20 · Dec 27 &amp; Jan 3</div>
+      <p class="desc">Final assessments across all modules covered this semester.</p>
+    </div>
+  </div>
+</section>
+
+<div class="filter-bar" id="filterBar"><button class="filter-btn active" data-key="all">All Weeks</button><button class="filter-btn " data-key="assessments">Exams &amp; Review</button><button class="filter-btn " data-key="U1M1">U1M1 · States of Matter</button><button class="filter-btn " data-key="U1M2">U1M2 · Properties &amp; Changes</button><button class="filter-btn " data-key="U2M1">U2M1 · Dynamic Earth</button><button class="filter-btn " data-key="U2M2">U2M2 · Natural Hazards</button></div>
+
+<section class="timeline-section">
+  <div id="timeline">
+    <details class="week-card " data-week="1" data-unit="U1M1">
+      <summary>
+        <div class="week-num mono">W1</div>
+        <div class="week-meta">
+          <div class="week-date">Aug 23, 2026</div>
+          <div class="week-title">Changes in pressure</div>
+          <div class="week-unit">Unit 1: Module 1 Classification and states of matter</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Changes in pressure</li></ul>
+        <p class="why">Understanding how pressure affects different states of matter.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="2" data-unit="U1M1">
+      <summary>
+        <div class="week-num mono">W2</div>
+        <div class="week-meta">
+          <div class="week-date">Aug 30, 2026</div>
+          <div class="week-title">Molecular structure (Part 1)</div>
+          <div class="week-unit">Unit 1: Module 1 Classification and states of matter</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 4: Molecular structure</li></ul>
+        <p class="why">Exploring the microscopic arrangements of matter.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="3" data-unit="U1M1">
+      <summary>
+        <div class="week-num mono">W3</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 6, 2026</div>
+          <div class="week-title">Molecular structure (Part 2)</div>
+          <div class="week-unit">Unit 1: Module 1 Classification and states of matter</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 4: Molecular structure</li></ul>
+        <p class="why">Deepening understanding of molecular bonding and structures.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="4" data-unit="U1M2">
+      <summary>
+        <div class="week-num mono">W4</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 13, 2026</div>
+          <div class="week-title">Properties of matter (Part 1)</div>
+          <div class="week-unit">Unit 1: Module 2 Properties and changes</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 1: Properties of matter</li></ul>
+        <p class="why">Differentiating physical and chemical properties.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="5" data-unit="U1M2">
+      <summary>
+        <div class="week-num mono">W5</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 20, 2026</div>
+          <div class="week-title">Properties of matter &amp; National Vacation</div>
+          <div class="week-unit">Unit 1: Module 2 Properties and changes</div>
+        </div>
+        <span class="badge break">National Vacation</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 1: Properties of matter</li><li>National vacation 23 &amp; 24</li></ul>
+        <p class="why">Short week due to Saudi National Day holidays.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="6" data-unit="U1M2">
+      <summary>
+        <div class="week-num mono">W6</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 27, 2026</div>
+          <div class="week-title">Property changes and chemical reactions</div>
+          <div class="week-unit">Unit 1: Module 2 Properties and changes</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 2: Property changes and chemical reactions</li></ul>
+        <p class="why">Analyzing evidence of chemical changes.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="7" data-unit="U1M2">
+      <summary>
+        <div class="week-num mono">W7</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 4, 2026</div>
+          <div class="week-title">Energy changes in chemical reactions (Part 1)</div>
+          <div class="week-unit">Unit 1: Module 2 Properties and changes</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Energy changes in chemical reactions</li></ul>
+        <p class="why">Investigating exothermic and endothermic reactions.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="8" data-unit="U1M2">
+      <summary>
+        <div class="week-num mono">W8</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 11, 2026</div>
+          <div class="week-title">Energy changes in chemical reactions (Part 2)</div>
+          <div class="week-unit">Unit 1: Module 2 Properties and changes</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Energy changes in chemical reactions</li></ul>
+        <p class="why">Measuring thermal energy transfer in reactions.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="9" data-unit="U2M1">
+      <summary>
+        <div class="week-num mono">W9</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 18, 2026</div>
+          <div class="week-title">Moving continents</div>
+          <div class="week-unit">Unit 2: Module 1 Dynamic Earth</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 1: Moving continents</li></ul>
+        <p class="why">Discovering plate tectonics and continental drift.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="10" data-unit="U2M1">
+      <summary>
+        <div class="week-num mono">W10</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 25, 2026</div>
+          <div class="week-title">Shaping Earth surface (Part 1)</div>
+          <div class="week-unit">Unit 2: Module 1 Dynamic Earth</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Shaping Earth surface</li></ul>
+        <p class="why">Understanding weathering, erosion, and deposition.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="11" data-unit="U2M1">
+      <summary>
+        <div class="week-num mono">W11</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 1, 2026</div>
+          <div class="week-title">Shaping Earth surface (Part 2)</div>
+          <div class="week-unit">Unit 2: Module 1 Dynamic Earth</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Shaping Earth surface</li></ul>
+        <p class="why">Analyzing landforms created by surface forces.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="12" data-unit="U2M1">
+      <summary>
+        <div class="week-num mono">W12</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 8, 2026</div>
+          <div class="week-title">Changing Earth's surface (Part 1)</div>
+          <div class="week-unit">Unit 2: Module 1 Dynamic Earth</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 4: Changing Earth's surface</li></ul>
+        <p class="why">Studying slow vs. rapid changes to Earth's crust.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="13" data-unit="U2M1">
+      <summary>
+        <div class="week-num mono">W13</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 15, 2026</div>
+          <div class="week-title">Changing Earth's surface &amp; Cycling Materials</div>
+          <div class="week-unit">Unit 2: Module 1 Dynamic Earth</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 4: Changing Earth's surface</li><li>Lesson 5: Cycling of Earth's materials</li></ul>
+        <p class="why">Connecting tectonic activity with the rock cycle.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="14" data-unit="Break">
+      <summary>
+        <div class="week-num mono">W14</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 22, 2026</div>
+          <div class="week-title">Autumn Break</div>
+          <div class="week-unit">Break</div>
+        </div>
+        <span class="badge break">Autumn Break</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>No classes scheduled</li></ul>
+        <p class="why">A scheduled mid-semester pause.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="15" data-unit="U2M1">
+      <summary>
+        <div class="week-num mono">W15</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 29, 2026</div>
+          <div class="week-title">Cycling of Earth's materials</div>
+          <div class="week-unit">Unit 2: Module 1 Dynamic Earth</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 5: Cycling of Earth's materials</li></ul>
+        <p class="why">Exploring energy flow and rock transformation.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="16" data-unit="U2M2">
+      <summary>
+        <div class="week-num mono">W16</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 6, 2026</div>
+          <div class="week-title">Volcanic risks</div>
+          <div class="week-unit">Unit 2: Module 2 Natural Hazards</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 2: Volcanic risks</li></ul>
+        <p class="why">Evaluating volcanic activity and risk factors.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="17" data-unit="U2M2">
+      <summary>
+        <div class="week-num mono">W17</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 13, 2026</div>
+          <div class="week-title">Earthquake risks &amp; Mitigation</div>
+          <div class="week-unit">Unit 2: Module 2 Natural Hazards</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Earthquake risks &amp; Mitigation</li></ul>
+        <p class="why">Learning structural mitigation and seismic safety.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="18" data-unit="Revision">
+      <summary>
+        <div class="week-num mono">W18</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 20, 2026</div>
+          <div class="week-title">General Review &amp; Exam Preparation</div>
+          <div class="week-unit">Revision</div>
+        </div>
+        <span class="badge revision">Revision</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>General Review &amp; Exam Preparation</li></ul>
+        <p class="why">Consolidating key concepts from Unit 1 and Unit 2.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="19" data-unit="Final">
+      <summary>
+        <div class="week-num mono">W19</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 27, 2026</div>
+          <div class="week-title">Semester 1 Exams Start</div>
+          <div class="week-unit">Final Exams</div>
+        </div>
+        <span class="badge final">Exams Start</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Semester 1 Exams</li></ul>
+        <p class="why">Evaluation of student progress across all modules.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="20" data-unit="Final">
+      <summary>
+        <div class="week-num mono">W20</div>
+        <div class="week-meta">
+          <div class="week-date">Jan 3, 2027</div>
+          <div class="week-title">Semester 1 Exams Continuation</div>
+          <div class="week-unit">Final Exams</div>
+        </div>
+        <span class="badge final">Exams</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Semester 1 Exams</li></ul>
+        <p class="why">Final exam period conclusion.</p>
+      </div>
+    </details></div>
+</section>
+
+<footer>
+  <p><strong>Quick key:</strong> Gold/Teal = Units &amp; Modules, Grey = Holidays/Breaks, Red = Exams. Larger markers represent key milestones.</p>
+  <p style="margin-top:12px;">Questions about any topic? Reach out to your Science teacher or the Science Department anytime.</p>
+</footer>
+
+<script>
+const weeks = [
+ {n:1, date:"Aug 23, 2026", unit:"Unit 1: Module 1 Classification and states of matter", title:"Changes in pressure", topics:["Lesson 3: Changes in pressure"], why:"Understanding how pressure affects different states of matter.", assessment:null},
+ {n:2, date:"Aug 30, 2026", unit:"Unit 1: Module 1 Classification and states of matter", title:"Molecular structure (Part 1)", topics:["Lesson 4: Molecular structure"], why:"Exploring the microscopic arrangements of matter.", assessment:null},
+ {n:3, date:"Sep 6, 2026", unit:"Unit 1: Module 1 Classification and states of matter", title:"Molecular structure (Part 2)", topics:["Lesson 4: Molecular structure"], why:"Deepening understanding of molecular bonding and structures.", assessment:null},
+ {n:4, date:"Sep 13, 2026", unit:"Unit 1: Module 2 Properties and changes", title:"Properties of matter (Part 1)", topics:["Lesson 1: Properties of matter"], why:"Differentiating physical and chemical properties.", assessment:null},
+ {n:5, date:"Sep 20, 2026", unit:"Unit 1: Module 2 Properties and changes", title:"Properties of matter & National Vacation", topics:["Lesson 1: Properties of matter", "National vacation 23 & 24"], why:"Short week due to Saudi National Day holidays.", assessment:{type:"break", label:"National Vacation"}, isBreak:true},
+ {n:6, date:"Sep 27, 2026", unit:"Unit 1: Module 2 Properties and changes", title:"Property changes and chemical reactions", topics:["Lesson 2: Property changes and chemical reactions"], why:"Analyzing evidence of chemical changes.", assessment:null},
+ {n:7, date:"Oct 4, 2026", unit:"Unit 1: Module 2 Properties and changes", title:"Energy changes in chemical reactions (Part 1)", topics:["Lesson 3: Energy changes in chemical reactions"], why:"Investigating exothermic and endothermic reactions.", assessment:null},
+ {n:8, date:"Oct 11, 2026", unit:"Unit 1: Module 2 Properties and changes", title:"Energy changes in chemical reactions (Part 2)", topics:["Lesson 3: Energy changes in chemical reactions"], why:"Measuring thermal energy transfer in reactions.", assessment:null},
+ {n:9, date:"Oct 18, 2026", unit:"Unit 2: Module 1 Dynamic Earth", title:"Moving continents", topics:["Lesson 1: Moving continents"], why:"Discovering plate tectonics and continental drift.", assessment:null},
+ {n:10, date:"Oct 25, 2026", unit:"Unit 2: Module 1 Dynamic Earth", title:"Shaping Earth surface (Part 1)", topics:["Lesson 3: Shaping Earth surface"], why:"Understanding weathering, erosion, and deposition.", assessment:null},
+ {n:11, date:"Nov 1, 2026", unit:"Unit 2: Module 1 Dynamic Earth", title:"Shaping Earth surface (Part 2)", topics:["Lesson 3: Shaping Earth surface"], why:"Analyzing landforms created by surface forces.", assessment:null},
+ {n:12, date:"Nov 8, 2026", unit:"Unit 2: Module 1 Dynamic Earth", title:"Changing Earth's surface (Part 1)", topics:["Lesson 4: Changing Earth's surface"], why:"Studying slow vs. rapid changes to Earth's crust.", assessment:null},
+ {n:13, date:"Nov 15, 2026", unit:"Unit 2: Module 1 Dynamic Earth", title:"Changing Earth's surface & Cycling Materials", topics:["Lesson 4: Changing Earth's surface", "Lesson 5: Cycling of Earth's materials"], why:"Connecting tectonic activity with the rock cycle.", assessment:null},
+ {n:14, date:"Nov 22, 2026", unit:"Break", title:"Autumn Break", topics:["No classes scheduled"], why:"A scheduled mid-semester pause.", assessment:{type:"break", label:"Autumn Break"}, isBreak:true},
+ {n:15, date:"Nov 29, 2026", unit:"Unit 2: Module 1 Dynamic Earth", title:"Cycling of Earth's materials", topics:["Lesson 5: Cycling of Earth's materials"], why:"Exploring energy flow and rock transformation.", assessment:null},
+ {n:16, date:"Dec 6, 2026", unit:"Unit 2: Module 2 Natural Hazards", title:"Volcanic risks", topics:["Lesson 2: Volcanic risks"], why:"Evaluating volcanic activity and risk factors.", assessment:null},
+ {n:17, date:"Dec 13, 2026", unit:"Unit 2: Module 2 Natural Hazards", title:"Earthquake risks & Mitigation", topics:["Lesson 3: Earthquake risks & Mitigation"], why:"Learning structural mitigation and seismic safety.", assessment:null},
+ {n:18, date:"Dec 20, 2026", unit:"Revision", title:"General Review & Exam Preparation", topics:["General Review & Exam Preparation"], why:"Consolidating key concepts from Unit 1 and Unit 2.", assessment:{type:"revision", label:"Revision"}},
+ {n:19, date:"Dec 27, 2026", unit:"Final Exams", title:"Semester 1 Exams Start", topics:["Semester 1 Exams"], why:"Evaluation of student progress across all modules.", assessment:{type:"final", label:"Exams Start"}},
+ {n:20, date:"Jan 3, 2027", unit:"Final Exams", title:"Semester 1 Exams Continuation", topics:["Semester 1 Exams"], why:"Final exam period conclusion.", assessment:{type:"final", label:"Exams"}}
+];
+
+function unitKey(unit){
+  if(unit.includes("Module 1 Classification")) return "U1M1";
+  if(unit.includes("Module 2 Properties")) return "U1M2";
+  if(unit.includes("Module 1 Dynamic Earth")) return "U2M1";
+  if(unit.includes("Module 2 Natural Hazards")) return "U2M2";
+  if(unit.includes("Final")) return "Final";
+  if(unit.includes("Revision")) return "Revision";
+  if(unit.includes("Break")) return "Break";
+  return "All";
+}
+
+function badgeHtml(a){
+  if(!a) return "";
+  return `<span class="badge ${a.type}">${a.label}</span>`;
+}
+
+function renderTimeline(filter){
+  const el = document.getElementById('timeline');
+  el.innerHTML = weeks.map(w=>{
+    const uk = unitKey(w.unit);
+    const show = filter==='all' ? true :
+      (filter==='assessments' ? !!(w.assessment && w.assessment.type!=='break') : uk===filter);
+    return `
+    <details class="week-card ${show?'':'hidden'}" data-week="${w.n}" data-unit="${uk}">
+      <summary>
+        <div class="week-num mono">W${w.n}</div>
+        <div class="week-meta">
+          <div class="week-date">${w.date}</div>
+          <div class="week-title">${w.title}</div>
+          <div class="week-unit">${w.unit}</div>
+        </div>
+        ${badgeHtml(w.assessment)}
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul>${w.topics.map(t=>`<li>${t}</li>`).join('')}</ul>
+        <p class="why">${w.why}</p>
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function renderFilters(){
+  const bar = document.getElementById('filterBar');
+  const options = [
+    {key:'all', label:'All Weeks'},
+    {key:'assessments', label:'Exams & Review'},
+    {key:'U1M1', label:'U1M1 · States of Matter'},
+    {key:'U1M2', label:'U1M2 · Properties & Changes'},
+    {key:'U2M1', label:'U2M1 · Dynamic Earth'},
+    {key:'U2M2', label:'U2M2 · Natural Hazards'}
+  ];
+  bar.innerHTML = options.map((o,i)=>`<button class="filter-btn ${i===0?'active':''}" data-key="${o.key}">${o.label}</button>`).join('');
+  bar.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      bar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTimeline(btn.dataset.key);
+    });
+  });
+}
+
+function assessColor(a){
+  if(!a) return "#E3A94D";
+  if(a.type==='final') return "#B23A48";
+  if(a.type==='revision') return "#E3A94D";
+  if(a.type==='break') return "#8A93A6";
+  return "#E3A94D";
+}
+
+function buildCurve(){
+  const svg = document.getElementById('curveSvg');
+  const n = weeks.length;
+  const w = 1400, h = 190;
+  const marginX = 40, marginY = 46;
+  const amp = 42;
+  let pathD = "";
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const x = marginX + (i/(n-1)) * (w - marginX*2);
+    const y = marginY + amp * Math.sin((i/(n-1)) * Math.PI * 2.4) + amp*0.4;
+    pts.push({x,y});
+    pathD += (i===0?`M ${x} ${y}`:` L ${x} ${y}`);
+  }
+  let svgContent = `<path d="${pathD}" fill="none" stroke="#2A3B66" stroke-width="2.5"/>`;
+
+  weeks.forEach((wk,i)=>{
+    const {x,y} = pts[i];
+    const isBreak = wk.isBreak;
+    const color = isBreak ? "#4A5578" : assessColor(wk.assessment);
+    const r = (wk.assessment && !isBreak) ? 9 : (isBreak ? 6 : 5);
+    svgContent += `
+      <g class="node" data-week="${wk.n}" transform="translate(${x},${y})">
+        <circle r="${r}" fill="${color}" ${isBreak ? 'stroke="#4A5578" stroke-dasharray="2,2" fill-opacity="0.3"' : ''}/>
+        <text x="0" y="${(y > 95 ? -16 : 24)}" text-anchor="middle">W${wk.n}</text>
+      </g>`;
+  });
+
+  const todayX = pts[1].x + (pts[2].x - pts[1].x) * 0.1;
+  const todayY = pts[1].y + (pts[2].y - pts[1].y) * 0.1 - 34;
+  svgContent += `
+    <g>
+      <line x1="${todayX}" y1="${todayY+8}" x2="${todayX}" y2="${todayY+34}" stroke="#E3A94D" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text class="today-flag" x="${todayX}" y="${todayY}" text-anchor="middle">◆ TODAY</text>
+    </g>`;
+
+  svg.innerHTML = svgContent;
+
+  svg.querySelectorAll('.node').forEach(node=>{
+    node.addEventListener('click', ()=>{
+      const weekNum = node.dataset.week;
+      const filterAll = document.querySelector('.filter-btn[data-key="all"]');
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      if(filterAll) filterAll.classList.add('active');
+      renderTimeline('all');
+      const card = document.querySelector(`.week-card[data-week="${weekNum}"]`);
+      if(card){
+        card.open = true;
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.style.boxShadow = "0 0 0 2px #E3A94D";
+        setTimeout(()=>{ card.style.boxShadow = "none"; }, 1400);
+      }
+    });
+  });
+}
+
+renderFilters();
+renderTimeline('all');
+buildCurve();
+</script>
+
+
+</body></html>

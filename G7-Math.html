@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 12 Math — Semester 1 Journey</title>
+
+<!-- Preconnect to external font origins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#101A33;
+    --navy-deep:#0A1226;
+    --paper:#FBF7EE;
+    --paper-dim:#F1EAD9;
+    --ink:#1B2438;
+    --slate:#5B6B8C;
+    --gold:#E3A94D;
+    --coral:#D9694F;   
+    --teal:#4FA69A;    
+    --violet:#8B6FC9;  
+    --crimson:#B23A48; 
+    --grey:#8A93A6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--paper);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    z-index: 1000;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 6vw 24px;
+    background:radial-gradient(ellipse at top left, #17244A 0%, var(--navy) 55%);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:12.5px;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:clamp(32px,5vw,56px);
+    font-weight:700;
+    margin:0 0 14px;
+    max-width:14ch;
+    color:#fff;
+  }
+  .hero p{
+    max-width:60ch;
+    color:#C7CEDE;
+    font-size:17px;
+    margin:0 0 8px;
+  }
+  .hero .sub-note{
+    font-size:14px;
+    color:var(--grey);
+  }
+
+  /* ---------- CURVE NAV ---------- */
+  .curve-section{
+    padding:8px 4vw 40px;
+    background:var(--navy);
+    overflow-x:auto;
+  }
+  .curve-caption{
+    font-size:13px;
+    color:var(--grey);
+    padding:0 2vw 6px;
+    max-width:70ch;
+  }
+  .curve-svg-wrap{
+    min-width:1400px;
+    position:relative;
+  }
+  .curve-svg-wrap svg{width:100%;height:auto;display:block;}
+  .node{cursor:pointer;}
+  .node circle{transition:r .15s ease, filter .15s ease;}
+  .node:hover circle{filter:brightness(1.3);}
+  .node text{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    fill:#8892A8;
+  }
+  .node.active circle{stroke:#fff;stroke-width:2px;}
+
+  /* ---------- ASSESSMENT SUMMARY ---------- */
+  .assess-section{
+    padding:48px 6vw 24px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .assess-section h2{font-size:26px;margin:0 0 6px;}
+  .assess-section > p{color:var(--slate);max-width:60ch;margin:0 0 28px;font-size:15px;}
+  .assess-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+  }
+  .assess-card{
+    background:var(--paper-dim);
+    border-radius:10px;
+    padding:20px;
+    border-left:5px solid var(--gold);
+  }
+  .assess-card.midterm{border-left-color:var(--coral);}
+  .assess-card.pba{border-left-color:var(--violet);}
+  .assess-card.quiz{border-left-color:var(--teal);}
+  .assess-card.final{border-left-color:var(--crimson);}
+  .assess-card .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--slate);
+  }
+  .assess-card h3{margin:6px 0 8px;font-size:20px;}
+  .assess-card p.desc{margin:8px 0 0;font-size:14px;color:var(--slate);}
+
+  /* ---------- FILTERS ---------- */
+  .filter-bar{
+    padding:20px 6vw 0;
+    background:var(--paper);
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .filter-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    border:1px solid #D8CFB9;
+    background:#fff;
+    color:var(--ink);
+    padding:8px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--ink);}
+  .filter-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-section{
+    background:var(--paper);
+    padding:24px 6vw 64px;
+  }
+  .week-card{
+    background:#fff;
+    border:1px solid #EAE2CC;
+    border-radius:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+    transition:box-shadow .15s ease;
+  }
+  .week-card.hidden{display:none;}
+  .week-card summary{
+    list-style:none;
+    cursor:pointer;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .week-card summary::-webkit-details-marker{display:none;}
+  .week-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:#fff;
+    background:var(--ink);
+    border-radius:6px;
+    padding:4px 8px;
+    min-width:44px;
+    text-align:center;
+    flex-shrink:0;
+  }
+  .week-meta{flex:1;min-width:0;}
+  .week-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .week-title{
+    font-size:17px;
+    font-weight:600;
+    color:var(--ink);
+    font-family:'Fraunces',serif;
+  }
+  .week-unit{font-size:12.5px;color:var(--slate);}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:999px;
+    color:#fff;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .badge.midterm{background:var(--coral);}
+  .badge.pba{background:var(--violet);}
+  .badge.quiz{background:var(--teal);}
+  .badge.final{background:var(--crimson);}
+  .badge.break{background:var(--grey);}
+  .badge.revision{background:var(--gold);color:var(--ink);}
+  .chev{color:var(--slate);transition:transform .15s ease;flex-shrink:0;}
+  details[open] .chev{transform:rotate(90deg);}
+  .week-body{
+    padding:4px 20px 24px 80px;
+    border-top:1px solid #F1EAD9;
+  }
+  .week-body ul{
+    margin:16px 0 0;
+    padding-left:20px;
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.6;
+  }
+  .week-body ul li{margin-bottom:2px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--navy-deep);
+    color:var(--grey);
+    padding:32px 6vw;
+    font-size:13px;
+  }
+  footer strong{color:var(--paper);}
+
+  @media (max-width:640px){
+    .week-body{padding-left:20px;}
+    .week-num{display:none;}
+  }
+</style>
+
+<!-- Third party analytics scripts loaded asynchronously -->
+</head>
+<body>
+
+<div class="sticky-header">
+    <center>
+      <h2>
+        <a href="#" class="logo">Grade 5</a> · 
+        <a href="G7-English.html">English</a> - 
+        <a href="G7-Math.html"  style="color: yellow;">Math</a> - 
+        <a href="G7-Science.htm">Science</a> - 
+        <a href="index.html" >Arabic</a>
+      </h2>
+    </center>    
+</div>
+
+
+
+<header class="hero">
+  <div class="eyebrow">Grade 7 · Mathematics · Semester 1 · 2026–2027</div>
+  <h1>The semester, built proportion by proportion — from geometry to statistics.</h1>
+  <p>Every week your student's toolkit grows — from scale drawings and geometry, through proportional relationships, into percentages and real-world sampling and statistics. The colored points mark the moments we check in: quizzes, the midterm, and the final exam.</p>
+  <p class="sub-note">Tap any point on the path — or any week below — to open the details.</p>
+</header>
+
+<section class="curve-section">
+  <div class="curve-caption">The semester as a timeline — click a point to jump to that week.</div>
+  <div class="curve-svg-wrap">
+    <svg id="curveSvg" viewBox="0 0 1400 190" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</section>
+
+<section class="assess-section">
+  <h2>How your child will be assessed</h2>
+  <p>Four kinds of checkpoints punctuate the semester. Here's when each one lands.</p>
+  <div class="assess-grid">
+    <div class="assess-card quiz">
+      <div class="label">Checkpoint</div>
+      <h3>Quiz 1</h3>
+      <div class="weeks quiz-c">Weeks 4–5 · Sep 13–20</div>
+      <p class="desc">Checks cross sections, surface area, and volume.</p>
+    </div>
+    <div class="assess-card midterm">
+      <div class="label">Checkpoint</div>
+      <h3>Midterm Test</h3>
+      <div class="weeks midterm-c">Week 8 · Oct 11</div>
+      <p class="desc">Covers English, Math, Science & Arabic. Note: the course pacing guide also references a Midterm at Week 7 — worth confirming exact timing with the team. (This grade's pacing guide doesn't show a separate Math PBL task the week the school calendar lists one — likely because midterm prep took priority that week.)</p>
+    </div>
+    <div class="assess-card quiz">
+      <div class="label">Checkpoint</div>
+      <h3>Benchmark Assessment</h3>
+      <div class="weeks quiz-c">Week 11 · Nov 1</div>
+      <p class="desc">A course checkpoint at the start of the percentages unit.</p>
+    </div>
+    <div class="assess-card quiz">
+      <div class="label">Checkpoint</div>
+      <h3>Quiz 2</h3>
+      <div class="weeks quiz-c">Week 16 · Dec 6</div>
+      <p class="desc">Opens the sampling and statistics unit.</p>
+    </div>
+    <div class="assess-card revision">
+      <div class="label">Checkpoint</div>
+      <h3>Revision Week</h3>
+      <div class="weeks" style="color:var(--gold)">Week 18 · Dec 20</div>
+      <p class="desc">A full week set aside to review everything before finals — no new content.</p>
+    </div>
+    <div class="assess-card final">
+      <div class="label">Checkpoint</div>
+      <h3>Semester 1 Final Exam</h3>
+      <div class="weeks final-c">Begins Week 20 · Jan 3</div>
+      <p class="desc">Cumulative exam across all four units. The official calendar doesn't list an end date for this grade band — worth confirming with the team. The Mid-Year Break follows on Jan 10.</p>
+    </div>
+  </div>
+</section>
+
+<section class="assess-section" style="padding-top:8px;">
+  <h2 style="font-size:20px;">Other key dates this semester</h2>
+  <p style="margin-bottom:16px;">Not graded, but good to have on the family calendar.</p>
+  <ul style="margin:0;padding-left:20px;font-size:14.5px;color:var(--ink);line-height:1.9;">
+    <li><b>Aug 23</b> — Welcome Back (Grades 4–8); Parents' Induction Webinar, Wed Aug 26</li>
+    <li><b>Aug 30 – Sep 6</b> — Baseline Test submitted by Subject Directors, then taken by students</li>
+    <li><b>Sep 20</b> — Award Ceremony for Academic Achievement; National Day holiday, Sep 23–24</li>
+    <li><b>Oct 18</b> — End of Quarter 1; Quiz II for ISA/ISE, Computer & Social Studies (not Math)</li>
+    <li><b>Oct 25–29</b> — Report cards issued Oct 29</li>
+    <li><b>Nov 3–4</b> — Parent–Teacher Conference</li>
+    <li><b>Jan 10</b> — Mid-Year Break</li>
+    <li><b>Jan 17</b> — Semester 2 begins</li>
+  </ul>
+</section>
+
+<div class="filter-bar" id="filterBar"></div>
+
+<section class="timeline-section">
+  <div id="timeline"></div>
+</section>
+
+<footer>
+  <p><strong>Quick key:</strong> Unit 2 Geometry, Unit 3 Proportional Relationships, Unit 4 Percentages, Unit 5 Sampling & Statistics — grey marks breaks. Larger dots on the curve mark assessment weeks.</p>
+  <p style="margin-top:12px;">Questions about any unit? Reach out to your child's math teacher or the Math Department anytime.</p>
+</footer>
+
+<script>
+const UNIT_COLORS = {
+  "Unit 2": "#E3A94D",
+  "Unit 3": "#4FA69A",
+  "Unit 4": "#8B6FC9",
+  "Unit 5": "#D9694F",
+  "Unit 6": "#5B8FD9",
+  "Unit 7": "#C97FB0",
+  "Break": "#8A93A6",
+  "Revision": "#E3A94D",
+  "Final": "#B23A48"
+};
+
+function unitKey(unit){
+  if(unit.includes("Unit 2")) return "Unit 2";
+  if(unit.includes("Unit 3")) return "Unit 3";
+  if(unit.includes("Unit 4")) return "Unit 4";
+  if(unit.includes("Unit 5")) return "Unit 5";
+  if(unit.includes("Unit 6")) return "Unit 6";
+  if(unit.includes("Unit 7")) return "Unit 7";
+  if(unit.includes("Final")) return "Final";
+  if(unit.includes("Revision")) return "Revision";
+  if(unit.includes("Break")) return "Break";
+  return "Unit 2";
+}
+
+const weeks = [
+ {n:1, date:"Aug 23", unit:"Unit 2 · Solve Problems Involving Geometry", title:"Scale Drawings", topics:["Unit opener", "Solving problems involving scale drawings"], why:"Scale drawings connect math to real blueprints and maps.", assessments:[], event:"Welcome Back for Grades 4–8 (Sun, Aug 23). Parents\' Induction Webinar — Wed, Aug 26."},
+ {n:2, date:"Aug 30", unit:"Unit 2 · Solve Problems Involving Geometry", title:"Analyzing Triangles & Figures", topics:["Using side lengths & angles to draw and analyze triangles", "Analyzing attributes of geometric figures", "Diagnostic test"], why:"What conditions make a triangle unique? Students investigate by building and testing.", assessments:[], event:"Meet & Greet. Subject Directors submit the Baseline Test (English, Arabic, Math & Science)."},
+ {n:3, date:"Sep 6", unit:"Unit 2 · Solve Problems Involving Geometry", title:"Angle Relationships", topics:["Solving problems involving angle relationships"], why:"Supplementary, complementary, vertical, and adjacent angles become tools for finding unknowns.", assessments:[], event:"Students sit the Baseline Test assessment."},
+ {n:4, date:"Sep 13", unit:"Unit 2 · Solve Problems Involving Geometry", title:"Cross Sections & Surface Area", topics:["Describing cross sections of 3-D figures", "Solving problems involving area and surface area"], why:"Slicing a 3-D shape reveals a 2-D cross section — a new way to see solid figures.", assessments:[{type:"quiz", label:"Quiz 1"}], event:"School-wide Project-Based Learning — Arabic. Quiz I (all subjects, Quarter 1) begins."},
+ {n:5, date:"Sep 20–24", unit:"Unit 2 · Solve Problems Involving Geometry", title:"Volume of Prisms", topics:["Two days off for Saudi National Day", "Quiz 1, continued", "Solving problems involving volume"], why:"Volume wraps up the geometry unit, measuring the space inside prisms.", assessments:[{type:"quiz", label:"Quiz 1"}], event:"Award Ceremony for Academic Achievement. National Day holiday, Sep 23–24. Quiz I (Quarter 1) continues."},
+ {n:6, date:"Sep 27", unit:"Unit 2 · Solve Problems Involving Geometry", title:"Circumference & Area of Circles", topics:["Circumference of circles", "Area of circles", "Unit review & fluency practice"], why:"Pi makes its entrance — connecting a circle\'s round shape to exact formulas.", assessments:[], event:"School-wide Project-Based Learning — English."},
+ {n:7, date:"Oct 4", unit:"Unit 2 · Solve Problems Involving Geometry & Unit 3 · Proportional Relationships", title:"Into Proportional Relationships", topics:["Unit 2 assessment", "Connecting ratios, rates, and proportions"], why:"Geometry wraps up as the class turns to proportional relationships. Note: the course pacing guide also references a Midterm this week — the official school calendar places the Midterm at Week 8, worth confirming exact timing with the team.", assessments:[], event:"School-wide Project-Based Learning — Math."},
+ {n:8, date:"Oct 11", unit:"Unit 3 · Proportional Relationships", title:"Tables & Graphs of Proportionality", topics:["Using tables to determine proportionality", "Using graphs to determine proportionality"], why:"Two more ways to spot a proportional relationship — tables and graphs.", assessments:[{type:"midterm", label:"Midterm"}], event:"School-wide Project-Based Learning — Science. Mid-Term Test begins (English, Math, Science, Arabic)."},
+ {n:9, date:"Oct 18", unit:"Unit 3 · Proportional Relationships", title:"Equations for Proportional Relationships", topics:["Representing proportional relationships with equations (y = kx)", "Describing proportional relationships"], why:"Proportional relationships get their own equation form, y = kx.", assessments:[], event:"End of Quarter 1. Quiz II for ISA/ISE, Computer & Social Studies — not Math."},
+ {n:10, date:"Oct 25", unit:"Unit 3 · Proportional Relationships", title:"Multi-Step Ratio Problems", topics:["Solving multi-step ratio problems", "Unit 3 assessment"], why:"Ratio reasoning tackles multi-step problems, discounts, and interest.", assessments:[], event:"Report cards issued Oct 29."},
+ {n:11, date:"Nov 1", unit:"Unit 3 · Proportional Relationships & Unit 4 · Solve Problems Involving Percentages", title:"Benchmark Assessment & Into Percentages", topics:["Unit 3 benchmark assessment", "Connecting percentages and proportional reasoning"], why:"Percentages return as a special case of proportional reasoning.", assessments:[{type:"quiz", label:"Benchmark Assessment"}], event:"Parent–Teacher Conference — Wed & Thu."},
+ {n:12, date:"Nov 8", unit:"Unit 4 · Solve Problems Involving Percentages", title:"The Percent Equation", topics:["Understanding the percent equation", "Solving percent change problems"], why:"One equation, many percent problems — increase, decrease, and beyond.", assessments:[], event:null},
+ {n:13, date:"Nov 15", unit:"Unit 4 · Solve Problems Involving Percentages", title:"Markup, Markdown & Simple Interest", topics:["Solving markup and markdown problems", "Solving simple interest problems"], why:"Percentages meet the real world — pricing, discounts, and interest.", assessments:[], event:null},
+ {n:14, date:"Nov 22–26", unit:"Break · Autumn Break", title:"Autumn Break", topics:["No classes all week"], why:"A full week to rest and recharge.", assessments:[{type:"break", label:"Break"}], isBreak:true, event:"Autumn Break — no classes."},
+ {n:15, date:"Nov 29", unit:"Unit 4 · Solve Problems Involving Percentages", title:"Percent Error", topics:["Solving percent error problems", "Unit 4 assessment"], why:"Percent error measures how close an estimate came to the real value.", assessments:[], event:"School resumes."},
+ {n:16, date:"Dec 6", unit:"Unit 5 · Sampling and Statistics", title:"Populations, Samples & Bias", topics:["Relationships between populations, samples, and statistics", "Identifying biased and unbiased samples"], why:"A new unit: using a small sample to understand a much bigger population.", assessments:[{type:"quiz", label:"Quiz 2"}], event:"Quiz I (Quarter 2) — Arabic, English, Math & Science."},
+ {n:17, date:"Dec 13", unit:"Unit 5 · Sampling and Statistics", title:"Inferences, Accuracy & Overlap", topics:["Drawing inferences from samples", "Using multiple samples to describe accuracy", "Assessing visual overlap between distributions"], why:"Statistics gets sophisticated — comparing multiple samples and their overlap.", assessments:[], event:null},
+ {n:18, date:"Dec 20", unit:"Revision", title:"Revision Week", topics:["Cumulative revision for the final exam — no new content"], why:"A dedicated week to review and consolidate the whole semester.", assessments:[{type:"revision", label:"Revision"}], event:null},
+ {n:19, date:"Dec 27", unit:"Final Exams", title:"Ahead of the Final Exam", topics:["No event specified for this week in the official calendar"], why:"Exams begin the following week (Jan 3) — worth confirming with the team whether this week is a holiday or continued revision.", assessments:[], event:null},
+ {n:20, date:"Jan 3", unit:"Final Exams", title:"Semester 1 Final Exam Begins", topics:["Semester 1 Final Exams begin"], why:"Covers everything learned across all four units this semester.", assessments:[{type:"final", label:"Final Exam"}], event:"Semester 1 Exams start Jan 3. No end date is listed in the official calendar for this grade band — worth confirming with the team. The Mid-Year Break follows on Jan 10."},
+];
+
+function badgeHtml(list){
+  if(!list || !list.length) return "";
+  return list.map(a=>`<span class="badge ${a.type}">${a.label}</span>`).join('');
+}
+
+function renderTimeline(filter){
+  const el = document.getElementById('timeline');
+  el.innerHTML = weeks.map(w=>{
+    const uk = unitKey(w.unit);
+    const hasAssessment = w.assessments && w.assessments.some(a=>a.type!=='break');
+    const show = filter==='all' ? true :
+      (filter==='assessments' ? !!hasAssessment : uk===filter);
+    const eventBlock = w.event ? `<p class="school-event">${w.event}</p>` : "";
+    return `
+    <details class="week-card ${show?'':'hidden'}" data-week="${w.n}" data-unit="${uk}">
+      <summary>
+        <div class="week-num mono">W${w.n}</div>
+        <div class="week-meta">
+          <div class="week-date">${w.date}</div>
+          <div class="week-title">${w.title}</div>
+          <div class="week-unit">${w.unit}</div>
+        </div>
+        ${badgeHtml(w.assessments)}
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul>${w.topics.map(t=>`<li>${t}</li>`).join('')}</ul>
+        <p class="why">${w.why}</p>
+        ${eventBlock}
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function renderFilters(){
+  const bar = document.getElementById('filterBar');
+  const options = [
+    {key:'all', label:'All Weeks'},
+    {key:'assessments', label:'Assessments Only'},
+    {key:'Unit 2', label:'Unit 2 · Geometry'},
+    {key:'Unit 3', label:'Unit 3 · Proportional Relationships'},
+    {key:'Unit 4', label:'Unit 4 · Percentages'},
+    {key:'Unit 5', label:'Unit 5 · Sampling & Statistics'},
+  ];
+  bar.innerHTML = options.map((o,i)=>`<button class="filter-btn ${i===0?'active':''}" data-key="${o.key}">${o.label}</button>`).join('');
+  bar.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      bar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTimeline(btn.dataset.key);
+    });
+  });
+}
+
+function assessColor(list){
+  if(!list || !list.length) return "#E3A94D";
+  const priority = ['final','midterm','quiz','pba','pbl','revision','break'];
+  const colors = {final:"#B23A48", midterm:"#D9694F", quiz:"#4FA69A", pba:"#8B6FC9", pbl:"#8B6FC9", revision:"#E3A94D", break:"#8A93A6"};
+  for(const p of priority){
+    if(list.some(a=>a.type===p)) return colors[p];
+  }
+  return "#E3A94D";
+}
+
+function buildCurve(){
+  const svg = document.getElementById('curveSvg');
+  const n = weeks.length;
+  const w = 1400, h = 190;
+  const marginX = 40, marginY = 46;
+  const amp = 42;
+  let pathD = "";
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const x = marginX + (i/(n-1)) * (w - marginX*2);
+    const y = marginY + amp * Math.sin((i/(n-1)) * Math.PI * 2.4) + amp*0.4;
+    pts.push({x,y});
+    pathD += (i===0?`M ${x} ${y}`:` L ${x} ${y}`);
+  }
+  let svgContent = `<path d="${pathD}" fill="none" stroke="#2A3B66" stroke-width="2.5"/>`;
+
+  weeks.forEach((wk,i)=>{
+    const {x,y} = pts[i];
+    const isBreak = wk.isBreak;
+    const hasAssessment = wk.assessments && wk.assessments.some(a=>a.type!=='break');
+    const color = isBreak ? "#4A5578" : assessColor(wk.assessments);
+    const r = (hasAssessment && !isBreak) ? 9 : (isBreak ? 6 : 5);
+    svgContent += `
+      <g class="node" data-week="${wk.n}" transform="translate(${x},${y})">
+        <circle r="${r}" fill="${color}" ${isBreak ? 'stroke="#4A5578" stroke-dasharray="2,2" fill-opacity="0.3"' : ''}/>
+        <text x="0" y="${(y > 95 ? -16 : 24)}" text-anchor="middle">W${wk.n}</text>
+      </g>`;
+  });
+
+  // Today marker — Aug 24, 2026, right after Orientation (week 1)
+  const todayX = pts[0].x + (pts[1].x - pts[0].x) * 0.35;
+  const todayY = pts[0].y + (pts[1].y - pts[0].y) * 0.35 - 34;
+  svgContent += `
+    <g>
+      <line x1="${todayX}" y1="${todayY+8}" x2="${todayX}" y2="${todayY+34}" stroke="#E3A94D" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text class="today-flag" x="${todayX}" y="${todayY}" text-anchor="middle">◆ TODAY</text>
+    </g>`;
+
+  svg.innerHTML = svgContent;
+
+  svg.querySelectorAll('.node').forEach(node=>{
+    node.addEventListener('click', ()=>{
+      const weekNum = node.dataset.week;
+      const filterAll = document.querySelector('.filter-btn[data-key="all"]');
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      if(filterAll) filterAll.classList.add('active');
+      renderTimeline('all');
+      const card = document.querySelector(`.week-card[data-week="${weekNum}"]`);
+      if(card){
+        card.open = true;
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.style.boxShadow = "0 0 0 2px #E3A94D";
+        setTimeout(()=>{ card.style.boxShadow = "none"; }, 1400);
+      }
+    });
+  });
+}
+
+renderFilters();
+renderTimeline('all');
+buildCurve();
+</script>
+
+</body>
+</html>

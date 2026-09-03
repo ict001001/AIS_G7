@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 12 Math — Semester 1 Journey</title>
+
+<!-- Preconnect to external font origins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#101A33;
+    --navy-deep:#0A1226;
+    --paper:#FBF7EE;
+    --paper-dim:#F1EAD9;
+    --ink:#1B2438;
+    --slate:#5B6B8C;
+    --gold:#E3A94D;
+    --coral:#D9694F;   
+    --teal:#4FA69A;    
+    --violet:#8B6FC9;  
+    --crimson:#B23A48; 
+    --grey:#8A93A6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--paper);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    z-index: 1000;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 6vw 24px;
+    background:radial-gradient(ellipse at top left, #17244A 0%, var(--navy) 55%);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:12.5px;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:clamp(32px,5vw,56px);
+    font-weight:700;
+    margin:0 0 14px;
+    max-width:14ch;
+    color:#fff;
+  }
+  .hero p{
+    max-width:60ch;
+    color:#C7CEDE;
+    font-size:17px;
+    margin:0 0 8px;
+  }
+  .hero .sub-note{
+    font-size:14px;
+    color:var(--grey);
+  }
+
+  /* ---------- CURVE NAV ---------- */
+  .curve-section{
+    padding:8px 4vw 40px;
+    background:var(--navy);
+    overflow-x:auto;
+  }
+  .curve-caption{
+    font-size:13px;
+    color:var(--grey);
+    padding:0 2vw 6px;
+    max-width:70ch;
+  }
+  .curve-svg-wrap{
+    min-width:1400px;
+    position:relative;
+  }
+  .curve-svg-wrap svg{width:100%;height:auto;display:block;}
+  .node{cursor:pointer;}
+  .node circle{transition:r .15s ease, filter .15s ease;}
+  .node:hover circle{filter:brightness(1.3);}
+  .node text{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    fill:#8892A8;
+  }
+  .node.active circle{stroke:#fff;stroke-width:2px;}
+
+  /* ---------- ASSESSMENT SUMMARY ---------- */
+  .assess-section{
+    padding:48px 6vw 24px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .assess-section h2{font-size:26px;margin:0 0 6px;}
+  .assess-section > p{color:var(--slate);max-width:60ch;margin:0 0 28px;font-size:15px;}
+  .assess-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+  }
+  .assess-card{
+    background:var(--paper-dim);
+    border-radius:10px;
+    padding:20px;
+    border-left:5px solid var(--gold);
+  }
+  .assess-card.midterm{border-left-color:var(--coral);}
+  .assess-card.pba{border-left-color:var(--violet);}
+  .assess-card.quiz{border-left-color:var(--teal);}
+  .assess-card.final{border-left-color:var(--crimson);}
+  .assess-card .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--slate);
+  }
+  .assess-card h3{margin:6px 0 8px;font-size:20px;}
+  .assess-card p.desc{margin:8px 0 0;font-size:14px;color:var(--slate);}
+
+  /* ---------- FILTERS ---------- */
+  .filter-bar{
+    padding:20px 6vw 0;
+    background:var(--paper);
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .filter-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    border:1px solid #D8CFB9;
+    background:#fff;
+    color:var(--ink);
+    padding:8px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--ink);}
+  .filter-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-section{
+    background:var(--paper);
+    padding:24px 6vw 64px;
+  }
+  .week-card{
+    background:#fff;
+    border:1px solid #EAE2CC;
+    border-radius:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+    transition:box-shadow .15s ease;
+  }
+  .week-card.hidden{display:none;}
+  .week-card summary{
+    list-style:none;
+    cursor:pointer;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .week-card summary::-webkit-details-marker{display:none;}
+  .week-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:#fff;
+    background:var(--ink);
+    border-radius:6px;
+    padding:4px 8px;
+    min-width:44px;
+    text-align:center;
+    flex-shrink:0;
+  }
+  .week-meta{flex:1;min-width:0;}
+  .week-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .week-title{
+    font-size:17px;
+    font-weight:600;
+    color:var(--ink);
+    font-family:'Fraunces',serif;
+  }
+  .week-unit{font-size:12.5px;color:var(--slate);}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:999px;
+    color:#fff;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .badge.midterm{background:var(--coral);}
+  .badge.pba{background:var(--violet);}
+  .badge.quiz{background:var(--teal);}
+  .badge.final{background:var(--crimson);}
+  .badge.break{background:var(--grey);}
+  .badge.revision{background:var(--gold);color:var(--ink);}
+  .chev{color:var(--slate);transition:transform .15s ease;flex-shrink:0;}
+  details[open] .chev{transform:rotate(90deg);}
+  .week-body{
+    padding:4px 20px 24px 80px;
+    border-top:1px solid #F1EAD9;
+  }
+  .week-body ul{
+    margin:16px 0 0;
+    padding-left:20px;
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.6;
+  }
+  .week-body ul li{margin-bottom:2px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--navy-deep);
+    color:var(--grey);
+    padding:32px 6vw;
+    font-size:13px;
+  }
+  footer strong{color:var(--paper);}
+
+  @media (max-width:640px){
+    .week-body{padding-left:20px;}
+    .week-num{display:none;}
+  }
+</style>
+
+<!-- Third party analytics scripts loaded asynchronously -->
+</head>
+<body>
+
+<div class="sticky-header">
+    <center>
+      <h2>
+        <a href="#" class="logo">Grade 5</a> · 
+        <a href="G7-English.html">English</a> - 
+        <a href="G7-Math.html" >Math</a> - 
+        <a href="G7-Science.htm">Science</a> - 
+        <a href="index.html" style="color: yellow;">Arabic</a>
+      </h2>
+    </center>    
+</div>
+
+
+
+<header class="hero">
+  <div class="eyebrow">Grade 7 Arabic · الفصل الدراسي الأول 2026</div>
+  <h1>خطة التعلم الأسبوعية — مقرر اللغة العربية (الصف السابع)</h1>
+  <p>خارطة زمنية متكاملة لتوزيع منهج اللغة العربية للصف السابع (الأول المتوسط) خلال الفصل الدراسي الأول، تغطي الوحدات التعليمية (الوحدة الأولى: القيم الإسلامية، الوحدة الثانية: الأعلام، الوحدة الثالثة: الوطن)، وتتضمن دراسة النصوص القرائية والفنون الأدبية (القصة القصيرة، الحوار)، والقواعد النحوية (المبتدأ والخبر، المفرد والمثنى، الأفعال الناسخة، الحروف الناسخة، أنواع الجموع)، والكفايات الإملائية (همزتا الوصل والقطع).</p>
+  <p class="sub-note">اضغط على أي نقطة في المنحنى — أو أسبوع في القائمة — لاستعراض التفاصيل والأهداف التعليمية.</p>
+</header>
+
+<section class="curve-section">
+  <div class="curve-caption">المسار الزمني للمقرر عبر الأسابيع — اضغط على أي نقطة للانتقال للأسبوع:</div>
+  <div class="curve-svg-wrap">
+    <svg id="curveSvg" viewBox="0 0 1400 180" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</section>
+
+<section class="assess-section">
+  <h2>أبرز التقييمات والأحداث والمحطات</h2>
+  <p>أهم المحطات التقييمية والمناسبات المقررة على مدار الفصل الدراسي الأول:</p>
+  <div class="assess-grid">
+    <div class="assess-card national">
+      <div class="label">مناسبة وطنية</div>
+      <h3>اليوم الوطني السعودي</h3>
+      <div class="weeks national-c">الأسبوع 5 · 20 سبتمبر 2026</div>
+      <p class="desc">الاحتفاء باليوم الوطني (23 & 24 سبتمبر) وتطبيق أسلوب الأمر والنكرة والمعرفة.</p>
+    </div>
+    <div class="assess-card break">
+      <div class="label">إجازة رسمية</div>
+      <h3>إجازة الخريف</h3>
+      <div class="weeks break-c">الأسبوع 14 · 22 نوفمبر 2026</div>
+      <p class="desc">استراحة منتصف الفصل الدراسي لتجديد النشاط والتهيؤ لاستكمال وحدة الوطن.</p>
+    </div>
+    <div class="assess-card quiz">
+      <div class="label">مراجعة وتطبيقات</div>
+      <h3>اختبارات الوحدات ومراجعة الفصل</h3>
+      <div class="weeks quiz-c">الأسابيع 8، 17، 18</div>
+      <p class="desc">نماذج اختبارات تقويمية للوحدتين الأولى والثالثة ومراجعة شاملة لنهاية الفصل الأول.</p>
+    </div>
+    <div class="assess-card final">
+      <div class="label">المحطة الختامية</div>
+      <h3>الاختبارات النهائية</h3>
+      <div class="weeks final-c">الأسابيع 19 - 20</div>
+      <p class="desc">الاختبارات التحريرية الشاملة لجميع كفايات مقرر الصف السابع النحوية والإملائية والنصية.</p>
+    </div>
+  </div>
+</section>
+
+<div class="filter-bar" id="filterBar"></div>
+
+<section class="timeline-section">
+  <div id="timeline"></div>
+</section>
+
+<footer>
+  <p><strong>دليل الألوان والكفايات:</strong> النحو والصرف (الأزرق)، النصوص والفنون الأدبية (البنفسجي)، الإملاء والرسم الكتابي (البرتقالي)، التقييمات والإجازات (الأحمر/الأخضر/الرمادي).</p>
+  <p style="margin-top:8px;">لأي استفسارات تفصيلية بخصوص مفردات منهج Grade 7 Arabic، يرجى التواصل مع منسق المادة.</p>
+</footer>
+
+<script>
+const weeks = [
+ {n:1, date:"23 أغسطس 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"gram", title:"مراجعة مكتسبات الصف السادس", topics:["مراجعة المهارات النحوية والإملائية التأسيسية","ترسيخ المفاهيم المكتسبة في الصف السادس الابتدائي"], why:"تهيئة الطلاب وتأسيسهم للانطلاق في منهج الصف السابع.", assessment:null},
+ {n:2, date:"30 أغسطس 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"rhet", title:"نص الانطلاق: القيم الإسلامية", topics:["القراءة التحليلية والاستيعابية لنص الانطلاق","استخلاص المعاني والقيم الإسلامية والتراكيب اللغوية"], why:"تنمية مهارات الفهم القرائي واستيعاب القيم الإسلامية المتضمنة بالنص.", assessment:null},
+ {n:3, date:"6 سبتمبر 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"rhet", title:"فن أدبي: القصة القصيرة", topics:["التعرف على عناصر القصة القصيرة (الشخصيات، الزمان، المكان، الأحداث، العقدة، الحل)","تحليل النماذج القصصية الأدبية"], why:"إكساب الطالب مهارة تحليل النص القصصي وفهم البنية الفنية للأدب القصصي.", assessment:null},
+ {n:4, date:"13 سبتمبر 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"orth", title:"الكفاية الإملائية: همزتا الوصل والقطع", topics:["مفهوم همزة الوصل وهمزة القطع والفرق بينهما","مواضع همزة الوصل والقطع في الأسماء والأفعال والحروف"], why:"التمييز الدقيق بين همزتي الوصل والقطع لضمان السلامة الإملائية.", assessment:null},
+ {n:5, date:"20 سبتمبر 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"gram", title:"أسلوب الأمر + النكرة والمعرفة", topics:["دراسة أسلوب الأمر ودلالاته وصيغه","التمييز بين النكرة والمعرفة وأنواع المعارف","مناسبة: إجازة اليوم الوطني السعودي (23 & 24 سبتمبر)"], why:"فهم واستخدام أسلوب الأمر وتحديد أقسام الاسم من حيث التعريف والتنكير.", assessment:{type:"national", label:"اليوم الوطني"}},
+ {n:6, date:"27 سبتمبر 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"gram", title:"الكفايات النحوية: المبتدأ والخبر", topics:["أركان الجملة الاسمية: المبتدأ والخبر","حالات رفع المبتدأ والخبر وأنواعهما والتطبيقات الإعرابية"], why:"ترسيخ أركان الجملة الاسمية وإتقان ضبطها وإعرابها.", assessment:null},
+ {n:7, date:"4 أكتوبر 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"rhet", title:"نص: من أخلاق النبي ﷺ", topics:["القراءة التذوقية والتحليلية للنص","استخراج المعاني الشريفة والأخلاق النبوية والأساليب البلاغية"], why:"تعميق فهم النصوص الأدبية والدينية وتذوق البلاغة النبوية.", assessment:null},
+ {n:8, date:"11 أكتوبر 2026", unit:"الوحدة الأولى: القيم الإسلامية", category:"quiz", title:"نموذج اختبار الوحدة الأولى", topics:["تقييم ومراجعة شاملة لكفايات الوحدة الأولى (القيم الإسلامية)","تطبيقات واختبارات قياسية على النحو والإملاء والنصوص"], why:"قياس مدى استيعاب الطلاب لكفايات ومخرجات الوحدة الأولى.", assessment:{type:"quiz", label:"اختبار الوحدة 1"}},
+ {n:9, date:"18 أكتوبر 2026", unit:"الوحدة الثانية: الأعلام", category:"rhet", title:"فن أدبي: الحوار", topics:["مفهوم فن الحوار وعناصره وبنيته الأدبية","آداب الحوار وأساليبه في النص الأدبي والتواصل"], why:"تنمية مهارات التعبير الحواري والتحليل الأدبي للنصوص الحوارية.", assessment:null},
+ {n:10, date:"25 أكتوبر 2026", unit:"الوحدة الثانية: الأعلام", category:"gram", title:"الكفايات النحوية: المفرد والمثنى", topics:["تعريف المفرد والمثنى وشروط التثنية","إعراب المثنى وعلامات رفعه (الألف) ونسبه وجره (الياء)"], why:"إتقان الصياغة الإعرابية الصحيحة للمثنى وتحويل المفرد إلى مثنى.", assessment:null},
+ {n:11, date:"1 نوفمبر 2026", unit:"الوحدة الثانية: الأعلام", category:"gram", title:"الأفعال الناسخة (كان وأخواتها)", topics:["الأفعال الناسخة وعملها في الجملة الاسمية","تغير أحكام المبتدأ والخبر وتطبيقات إعرابية مكثفة"], why:"فهم تأثير الأفعال الناسخة على الجملة الاسمية وإعراب اسمها وخبرها.", assessment:null},
+ {n:12, date:"8 نوفمبر 2026", unit:"الوحدة الثالثة: الوطن", category:"rhet", title:"نص الانطلاق: الوحدة الثالثة (الوطن)", topics:["القراءة التحليلية لنص الانطلاق لوحدة الوطن","تحليل الفكرة الرئيسة والأفكار الفرعية والمعجم اللغوي"], why:"تعزيز قيم المواطنة والانتماء وتنمية مهارات الاستيعاب القرائي.", assessment:null},
+ {n:13, date:"15 نوفمبر 2026", unit:"الوحدة الثالثة: الوطن", category:"gram", title:"الكفايات النحوية: أنواع الجموع", topics:["جمع المذكر السالم وجمع المؤنث السالم وجمع التكسير","علامات إعراب الجموع المختلفة والتطبيقات العملية"], why:"التمييز بين أنواع الجموع الثلاثة وضبطها بالشكل والحركات الإعرابية.", assessment:null},
+ {n:14, date:"22 نوفمبر 2026", unit:"إجازة الخريف", category:"break", title:"إجازة الخريف الرسمية", topics:["إجازة منتصف الفصل الدراسي الأول (Autumn Break)"], why:"استراحة رسمية لتجديد النشاط والتهيؤ لاستكمال دروس الوحدة الثالثة.", assessment:{type:"break", label:"إجازة الخريف"}, isBreak:true},
+ {n:15, date:"29 نوفمبر 2026", unit:"الوحدة الثالثة: الوطن", category:"gram", title:"الحروف الناسخة (إن وأخواتها)", topics:["الحروف الناسخة وعملها ودلالاتها البلاغية","إعراب اسم إن وخبرها في مختلف الحالات التركيبية"], why:"استيعاب عمل الحروف الناسخة والفرق بينها وبين الأفعال الناسخة.", assessment:null},
+ {n:16, date:"6 ديسمبر 2026", unit:"الوحدة الثالثة: الوطن", category:"rhet", title:"نص: من أجل عينيك يا وطني", topics:["القراءة الأدبية والتذوق البلاغي لنص (من أجل عينيك يا وطني)","تحليل الصور الفنية والأفكار الوطنية الشاعرة"], why:"تذوق الجماليات الأدبية والربط بين المشاعر الوطنية والنص الأدبي.", assessment:null},
+ {n:17, date:"13 ديسمبر 2026", unit:"الوحدة الثالثة: الوطن", category:"quiz", title:"نموذج اختبار الوحدة الثالثة", topics:["تطبيقات شاملة واختبار مهارات الوحدة الثالثة (الوطن)","مراجعة الحروف الناسخة وأنواع الجموع والنصوص القرائية"], why:"قياس التمكن المهارية والتهيؤ لاختبارات نهاية الفصل الدراسي.", assessment:{type:"quiz", label:"اختبار الوحدة 3"}},
+ {n:18, date:"20 ديسمبر 2026", unit:"اختبار نهاية الفصل الأول", category:"quiz", title:"اختبار نهاية الفصل الأول والمراجعة الشاملة", topics:["مراجعة عامة لجميع وحدات المقرر (القيم الإسلامية، الأعلام، الوطن)","تدريبات على القواعد النحوية والإملائية والفنون الأدبية"], why:"التأكد من جاهزية الطلاب للاختبارات النهائية واستيفاء نواتج التعلم.", assessment:{type:"quiz", label:"اختبار الفصل"}},
+ {n:19, date:"ديسمبر 2026 / يناير 2027", unit:"الاختبارات النهائية", category:"final", title:"الاختبارات النهائية — الأسبوع 19", topics:["بدء الاختبارات التحريرية الشاملة للفصل الدراسي الأول"], why:"تقييم تحصيل الطالب الشامل لمخرجات التعلم في الصف السابع.", assessment:{type:"final", label:"الاختبارات النهائية"}},
+ {n:20, date:"يناير 2027", unit:"الاختبارات النهائية", category:"final", title:"ختام الاختبارات النهائية — الأسبوع 20", topics:["استكمال الاختبارات وإعلان النتائج وختام الفصل الدراسي الأول"], why:"إنهاء المرحلة واستخراج التقارير وتحقيق مخرجات الفصل الأول.", assessment:{type:"final", label:"ختام الفصل"}}
+];
+
+function badgeHtml(w){
+  if(w.assessment){
+    return `<span class="badge ${w.assessment.type}">${w.assessment.label}</span>`;
+  }
+  if(w.category==='gram') return `<span class="badge gram">النحو والصرف</span>`;
+  if(w.category==='rhet') return `<span class="badge rhet">النصوص والأدب</span>`;
+  if(w.category==='orth') return `<span class="badge orth">الإملاء والرسم</span>`;
+  return "";
+}
+
+function renderTimeline(filter){
+  const el = document.getElementById('timeline');
+  el.innerHTML = weeks.map(w=>{
+    const show = (filter==='all') ? true :
+      (filter==='assessments' ? !!w.assessment : w.category===filter);
+    return `
+    <details class="week-card ${show?'':'hidden'}" data-week="${w.n}">
+      <summary>
+        <div class="week-num mono">الأسبوع ${w.n}</div>
+        <div class="week-meta">
+          <div class="week-date">${w.date}</div>
+          <div class="week-title">${w.title}</div>
+          <div class="week-unit">${w.unit}</div>
+        </div>
+        ${badgeHtml(w)}
+        <div class="chev">◀</div>
+      </summary>
+      <div class="week-body">
+        <ul>${w.topics.map(t=>`<li>${t}</li>`).join('')}</ul>
+        <p class="why"><b>الهدف التعليمي:</b> ${w.why}</p>
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function renderFilters(){
+  const bar = document.getElementById('filterBar');
+  const options = [
+    {key:'all', label:'جميع الأسابيع'},
+    {key:'gram', label:'النحو والصرف (المبتدأ والخبر، الناسخات، الجموع، المثنى)'},
+    {key:'rhet', label:'النصوص والفنون الأدبية (القصة القصيرة، الحوار، نصوص الانطلاق)'},
+    {key:'orth', label:'الإملاء والرسم (همزتا الوصل والقطع)'},
+    {key:'assessments', label:'التقييمات والإجازات والمناسبات'}
+  ];
+  bar.innerHTML = options.map((o,i)=>`<button class="filter-btn ${i===0?'active':''}" data-key="${o.key}">${o.label}</button>`).join('');
+  bar.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      bar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTimeline(btn.dataset.key);
+    });
+  });
+}
+
+function getNodeColor(w){
+  if(w.isBreak) return "#64748B";
+  if(w.assessment && w.assessment.type==='national') return "#059669";
+  if(w.assessment && w.assessment.type==='quiz') return "#DC2626";
+  if(w.assessment && w.assessment.type==='final') return "#991B1B";
+  if(w.category==='gram') return "#2563EB";
+  if(w.category==='rhet') return "#7C3AED";
+  if(w.category==='orth') return "#D97706";
+  return "#64748B";
+}
+
+function buildCurve(){
+  const svg = document.getElementById('curveSvg');
+  const n = weeks.length;
+  const w = 1400, h = 180;
+  const marginX = 40, marginY = 45;
+  const amp = 40;
+  let pathD = "";
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const x = marginX + (i/(n-1)) * (w - marginX*2);
+    const y = marginY + amp * Math.sin((i/(n-1)) * Math.PI * 2.3) + amp*0.3;
+    pts.push({x,y});
+    pathD += (i===0?`M ${x} ${y}`:` L ${x} ${y}`);
+  }
+  let svgContent = `<path d="${pathD}" fill="none" stroke="#334155" stroke-width="2.5"/>`;
+
+  weeks.forEach((wk,i)=>{
+    const {x,y} = pts[i];
+    const color = getNodeColor(wk);
+    const r = wk.assessment ? 8.5 : (wk.isBreak ? 6 : 5);
+    svgContent += `
+      <g class="node" data-week="${wk.n}" transform="translate(${x},${y})">
+        <circle r="${r}" fill="${color}" ${wk.isBreak ? 'stroke="#64748B" stroke-dasharray="2,2" fill-opacity="0.4"' : ''}/>
+        <text x="0" y="${(y > 90 ? -15 : 22)}" text-anchor="middle">أسبوع ${wk.n}</text>
+      </g>`;
+  });
+
+  svg.innerHTML = svgContent;
+
+  svg.querySelectorAll('.node').forEach(node=>{
+    node.addEventListener('click', ()=>{
+      const weekNum = node.dataset.week;
+      const filterAll = document.querySelector('.filter-btn[data-key="all"]');
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      if(filterAll) filterAll.classList.add('active');
+      renderTimeline('all');
+      const card = document.querySelector(`.week-card[data-week="${weekNum}"]`);
+      if(card){
+        card.open = true;
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.style.boxShadow = "0 0 0 2px #D97706";
+        setTimeout(()=>{ card.style.boxShadow = "none"; }, 1400);
+      }
+    });
+  });
+}
+
+renderFilters();
+renderTimeline('all');
+buildCurve();
+</script>
+
+</body>
+</html>
